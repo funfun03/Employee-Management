@@ -20,15 +20,15 @@ import lombok.Setter;
 @Builder
 
 public class UpdateEmployeeRequest {
-    @NotBlank
-    @Size(min = 4, max = 160)
+    @NotBlank(message = "Full name is required and cannot be empty")
+    @Size(min = 4, max = 160, message = "Full name must be between 4 and 160 characters")
     private String fullName;
 
     private LocalDate dateOfBirth;
 
     private Gender gender;
 
-    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Invalid phone number")
+    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number must be valid format (e.g., 0123456789 or +84123456789)")
     private String phoneNumber;
 
     private boolean active;

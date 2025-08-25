@@ -39,12 +39,12 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min = 4, max = 160)
+    @NotBlank(message = "Full name is required and cannot be empty")
+    @Size(min = 4, max = 160, message = "Full name must be between 4 and 160 characters")
     private String fullName;
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "Email is required and cannot be empty")
+    @Email(message = "Email must be in valid format")
     @Column(nullable = false, unique = true, length = 190)
     private String email;
 
@@ -53,7 +53,7 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Invalid phone number")
+    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number must be valid format (e.g., 0123456789 or +84123456789)")
     private String phoneNumber;
 
     @Column(nullable = false)
