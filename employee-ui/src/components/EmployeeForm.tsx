@@ -4,10 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import { useCreateEmployee, useUpdateEmployee } from "../hooks/useEmployees";
-import { Button } from "./ui/Button";
-import { Input } from "./ui/Input";
-import { Select } from "./ui/Select";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/Card";
 import type { Employee } from "../types/employee";
 
 const employeeSchema = z.object({
@@ -25,9 +21,7 @@ const employeeSchema = z.object({
   gender: z.enum(["MALE", "FEMALE", "OTHER"], {
     message: "Gender is required",
   }),
-  phoneNumber: z
-    .string()
-    .regex(/^\\+?[0-9. ()-]{7,25}$/, "Invalid phone number format"),
+  phoneNumber: z.string().regex(/^\d{9,12}$/, "Invalid phone number format"),
   active: z.boolean(),
 });
 
@@ -105,88 +99,334 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
   ];
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle>{isEdit ? "Edit Employee" : "Add New Employee"}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Input
-                label="Full Name"
-                {...register("fullName")}
-                error={errors.fullName?.message}
-                placeholder="Enter full name"
-              />
+    <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+      <div
+        style={{
+          backgroundColor: "white",
+          border: "1px solid #e5e7eb",
+          borderRadius: "8px",
+          overflow: "hidden",
+        }}
+      >
+        <div style={{ padding: "24px", borderBottom: "1px solid #e5e7eb" }}>
+          <h3
+            style={{
+              fontSize: "24px",
+              fontWeight: "600",
+              color: "black",
+              margin: 0,
+            }}
+          >
+            {isEdit ? "Edit Employee" : "Add New Employee"}
+          </h3>
+        </div>
+        <div style={{ padding: "24px" }}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "20px",
+                marginBottom: "20px",
+              }}
+            >
+              <div>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    color: "black",
+                    marginBottom: "6px",
+                  }}
+                >
+                  Full Name
+                </label>
+                <input
+                  {...register("fullName")}
+                  placeholder="Enter full name"
+                  style={{
+                    width: "100%",
+                    padding: "8px 12px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    color: "black",
+                    backgroundColor: "white",
+                  }}
+                />
+                {errors.fullName && (
+                  <p
+                    style={{
+                      color: "#dc2626",
+                      fontSize: "12px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {errors.fullName.message}
+                  </p>
+                )}
+              </div>
 
-              <Input
-                label="Email"
-                type="email"
-                {...register("email")}
-                error={errors.email?.message}
-                placeholder="Enter email address"
-                disabled={isEdit}
-              />
+              <div>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    color: "black",
+                    marginBottom: "6px",
+                  }}
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  {...register("email")}
+                  placeholder="Enter email address"
+                  disabled={isEdit}
+                  style={{
+                    width: "100%",
+                    padding: "8px 12px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    color: "black",
+                    backgroundColor: isEdit ? "#f9fafb" : "white",
+                    opacity: isEdit ? 0.6 : 1,
+                  }}
+                />
+                {errors.email && (
+                  <p
+                    style={{
+                      color: "#dc2626",
+                      fontSize: "12px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
             </div>
 
             {!isEdit && (
-              <Input
-                label="Password"
-                type="password"
-                {...register("password")}
-                error={errors.password?.message}
-                placeholder="Enter password"
-              />
+              <div style={{ marginBottom: "20px" }}>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    color: "black",
+                    marginBottom: "6px",
+                  }}
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  {...register("password")}
+                  placeholder="Enter password"
+                  style={{
+                    width: "100%",
+                    padding: "8px 12px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    color: "black",
+                    backgroundColor: "white",
+                  }}
+                />
+                {errors.password && (
+                  <p
+                    style={{
+                      color: "#dc2626",
+                      fontSize: "12px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Input
-                label="Date of Birth"
-                type="date"
-                {...register("dateOfBirth")}
-                error={errors.dateOfBirth?.message}
-              />
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "20px",
+                marginBottom: "20px",
+              }}
+            >
+              <div>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    color: "black",
+                    marginBottom: "6px",
+                  }}
+                >
+                  Date of Birth
+                </label>
+                <input
+                  type="date"
+                  {...register("dateOfBirth")}
+                  style={{
+                    width: "100%",
+                    padding: "8px 12px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    color: "black",
+                    backgroundColor: "white",
+                  }}
+                />
+                {errors.dateOfBirth && (
+                  <p
+                    style={{
+                      color: "#dc2626",
+                      fontSize: "12px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {errors.dateOfBirth.message}
+                  </p>
+                )}
+              </div>
 
-              <Select
-                label="Gender"
-                {...register("gender")}
-                error={errors.gender?.message}
-                options={genderOptions}
-              />
+              <div>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    color: "black",
+                    marginBottom: "6px",
+                  }}
+                >
+                  Gender
+                </label>
+                <select
+                  {...register("gender")}
+                  style={{
+                    width: "100%",
+                    padding: "8px 12px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    color: "black",
+                    backgroundColor: "white",
+                  }}
+                >
+                  <option value="">Select Gender</option>
+                  {genderOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                {errors.gender && (
+                  <p
+                    style={{
+                      color: "#dc2626",
+                      fontSize: "12px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {errors.gender.message}
+                  </p>
+                )}
+              </div>
             </div>
 
-            <Input
-              label="Phone Number"
-              {...register("phoneNumber")}
-              error={errors.phoneNumber?.message}
-              placeholder="Enter phone number"
-            />
+            <div style={{ marginBottom: "20px" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  color: "black",
+                  marginBottom: "6px",
+                }}
+              >
+                Phone Number
+              </label>
+              <input
+                {...register("phoneNumber")}
+                placeholder="Enter phone number"
+                style={{
+                  width: "100%",
+                  padding: "8px 12px",
+                  border: "1px solid #d1d5db",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  color: "black",
+                  backgroundColor: "white",
+                }}
+              />
+              {errors.phoneNumber && (
+                <p
+                  style={{
+                    color: "#dc2626",
+                    fontSize: "12px",
+                    marginTop: "4px",
+                  }}
+                >
+                  {errors.phoneNumber.message}
+                </p>
+              )}
+            </div>
 
-            <div className="flex items-center space-x-2">
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                marginBottom: "30px",
+              }}
+            >
               <input
                 type="checkbox"
                 id="active"
                 {...register("active")}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                style={{ width: "16px", height: "16px" }}
               />
               <label
                 htmlFor="active"
-                className="text-sm font-medium text-gray-700"
+                style={{ fontSize: "14px", fontWeight: "500", color: "black" }}
               >
                 Active Employee
               </label>
             </div>
 
-            <div className="flex space-x-4 pt-6">
-              <Button
+            <div style={{ display: "flex", gap: "16px" }}>
+              <button
                 type="submit"
                 disabled={
                   isSubmitting ||
                   createEmployee.isPending ||
                   updateEmployee.isPending
                 }
-                className="flex-1"
+                style={{
+                  flex: 1,
+                  backgroundColor: "#3b82f6",
+                  color: "white",
+                  padding: "12px 24px",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  opacity:
+                    isSubmitting ||
+                    createEmployee.isPending ||
+                    updateEmployee.isPending
+                      ? 0.6
+                      : 1,
+                }}
               >
                 {isSubmitting ||
                 createEmployee.isPending ||
@@ -197,19 +437,28 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
                   : isEdit
                   ? "Update Employee"
                   : "Create Employee"}
-              </Button>
-              <Button
+              </button>
+              <button
                 type="button"
-                variant="secondary"
                 onClick={() => navigate("/employees")}
-                className="flex-1"
+                style={{
+                  flex: 1,
+                  backgroundColor: "#f3f4f6",
+                  color: "black",
+                  padding: "12px 24px",
+                  border: "1px solid #d1d5db",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                }}
               >
                 Cancel
-              </Button>
+              </button>
             </div>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };

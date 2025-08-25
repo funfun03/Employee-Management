@@ -10,9 +10,25 @@ export const EditEmployeePage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "200px",
+          }}
+        >
+          <div
+            style={{
+              width: "40px",
+              height: "40px",
+              border: "3px solid #f3f3f3",
+              borderTop: "3px solid #3b82f6",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite",
+            }}
+          ></div>
         </div>
       </div>
     );
@@ -20,9 +36,16 @@ export const EditEmployeePage: React.FC = () => {
 
   if (error || !data?.data) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-red-50 border border-red-200 rounded-md p-4">
-          <p className="text-red-800">
+      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
+        <div
+          style={{
+            backgroundColor: "#fef2f2",
+            border: "1px solid #fecaca",
+            borderRadius: "6px",
+            padding: "16px",
+          }}
+        >
+          <p style={{ color: "#dc2626", margin: 0 }}>
             {error
               ? `Error loading employee: ${error.message}`
               : "Employee not found"}
@@ -33,7 +56,7 @@ export const EditEmployeePage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
       <EmployeeForm employee={data.data} isEdit={true} />
     </div>
   );

@@ -1,8 +1,6 @@
 import React from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEmployee, useDeleteEmployee } from "../hooks/useEmployees";
-import { Button } from "./ui/Button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/Card";
 
 export const EmployeeDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -29,20 +27,56 @@ export const EmployeeDetail: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "200px",
+        }}
+      >
+        <div
+          style={{
+            width: "40px",
+            height: "40px",
+            border: "3px solid #f3f3f3",
+            borderTop: "3px solid #3b82f6",
+            borderRadius: "50%",
+            animation: "spin 1s linear infinite",
+          }}
+        ></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-md p-4">
-        <p className="text-red-800">Error loading employee: {error.message}</p>
+      <div
+        style={{
+          backgroundColor: "#fef2f2",
+          border: "1px solid #fecaca",
+          borderRadius: "6px",
+          padding: "16px",
+        }}
+      >
+        <p style={{ color: "#dc2626", margin: "0 0 16px 0" }}>
+          Error loading employee: {error.message}
+        </p>
         <Link to="/employees">
-          <Button variant="secondary" className="mt-4">
+          <button
+            style={{
+              backgroundColor: "#f3f4f6",
+              color: "black",
+              padding: "8px 16px",
+              border: "1px solid #d1d5db",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontSize: "14px",
+              textDecoration: "none",
+            }}
+          >
             Back to List
-          </Button>
+          </button>
         </Link>
       </div>
     );
@@ -50,12 +84,32 @@ export const EmployeeDetail: React.FC = () => {
 
   if (!data?.data) {
     return (
-      <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4">
-        <p className="text-yellow-800">Employee not found</p>
+      <div
+        style={{
+          backgroundColor: "#fefce8",
+          border: "1px solid #fde68a",
+          borderRadius: "6px",
+          padding: "16px",
+        }}
+      >
+        <p style={{ color: "#92400e", margin: "0 0 16px 0" }}>
+          Employee not found
+        </p>
         <Link to="/employees">
-          <Button variant="secondary" className="mt-4">
+          <button
+            style={{
+              backgroundColor: "#f3f4f6",
+              color: "black",
+              padding: "8px 16px",
+              border: "1px solid #d1d5db",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontSize: "14px",
+              textDecoration: "none",
+            }}
+          >
             Back to List
-          </Button>
+          </button>
         </Link>
       </div>
     );
@@ -64,58 +118,170 @@ export const EmployeeDetail: React.FC = () => {
   const employee = data.data;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900">Employee Details</h1>
-        <div className="space-x-4">
+    <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "30px",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "32px",
+            fontWeight: "bold",
+            color: "black",
+            margin: 0,
+          }}
+        >
+          Employee Details
+        </h1>
+        <div style={{ display: "flex", gap: "12px" }}>
           <Link to="/employees">
-            <Button variant="secondary">Back to List</Button>
+            <button
+              style={{
+                backgroundColor: "#f3f4f6",
+                color: "black",
+                padding: "8px 16px",
+                border: "1px solid #d1d5db",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "14px",
+                textDecoration: "none",
+              }}
+            >
+              Back to List
+            </button>
           </Link>
           <Link to={`/employees/${employee.id}/edit`}>
-            <Button>Edit Employee</Button>
+            <button
+              style={{
+                backgroundColor: "#3b82f6",
+                color: "white",
+                padding: "8px 16px",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "14px",
+                textDecoration: "none",
+              }}
+            >
+              Edit Employee
+            </button>
           </Link>
-          <Button
-            variant="danger"
+          <button
             onClick={handleDelete}
             disabled={deleteEmployee.isPending}
+            style={{
+              backgroundColor: "#dc2626",
+              color: "white",
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontSize: "14px",
+              opacity: deleteEmployee.isPending ? 0.6 : 1,
+            }}
           >
             {deleteEmployee.isPending ? "Deleting..." : "Delete Employee"}
-          </Button>
+          </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Personal Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="text-sm font-medium text-gray-500">
+      <div
+        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}
+      >
+        <div
+          style={{
+            backgroundColor: "white",
+            border: "1px solid #e5e7eb",
+            borderRadius: "8px",
+            overflow: "hidden",
+          }}
+        >
+          <div style={{ padding: "20px", borderBottom: "1px solid #e5e7eb" }}>
+            <h3
+              style={{
+                fontSize: "18px",
+                fontWeight: "600",
+                color: "black",
+                margin: 0,
+              }}
+            >
+              Personal Information
+            </h3>
+          </div>
+          <div style={{ padding: "20px" }}>
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#6b7280",
+                  display: "block",
+                  marginBottom: "4px",
+                }}
+              >
                 Full Name
               </label>
-              <p className="text-lg font-semibold text-gray-900">
+              <p
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "600",
+                  color: "black",
+                  margin: 0,
+                }}
+              >
                 {employee.fullName}
               </p>
             </div>
 
-            <div>
-              <label className="text-sm font-medium text-gray-500">Email</label>
-              <p className="text-gray-900">{employee.email}</p>
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#6b7280",
+                  display: "block",
+                  marginBottom: "4px",
+                }}
+              >
+                Email
+              </label>
+              <p style={{ color: "black", margin: 0 }}>{employee.email}</p>
             </div>
 
-            <div>
-              <label className="text-sm font-medium text-gray-500">
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#6b7280",
+                  display: "block",
+                  marginBottom: "4px",
+                }}
+              >
                 Phone Number
               </label>
-              <p className="text-gray-900">{employee.phoneNumber}</p>
+              <p style={{ color: "black", margin: 0 }}>
+                {employee.phoneNumber}
+              </p>
             </div>
 
-            <div>
-              <label className="text-sm font-medium text-gray-500">
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#6b7280",
+                  display: "block",
+                  marginBottom: "4px",
+                }}
+              >
                 Date of Birth
               </label>
-              <p className="text-gray-900">
+              <p style={{ color: "black", margin: 0 }}>
                 {new Date(employee.dateOfBirth).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
@@ -125,52 +291,110 @@ export const EmployeeDetail: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-500">
+              <label
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#6b7280",
+                  display: "block",
+                  marginBottom: "4px",
+                }}
+              >
                 Gender
               </label>
-              <p className="text-gray-900">
-                <span className="inline-flex px-2 py-1 text-sm font-semibold rounded-full bg-blue-100 text-blue-800">
-                  {employee.gender}
-                </span>
-              </p>
+              <span
+                style={{
+                  display: "inline-flex",
+                  padding: "4px 8px",
+                  fontSize: "12px",
+                  fontWeight: "600",
+                  borderRadius: "20px",
+                  backgroundColor: "#dbeafe",
+                  color: "black",
+                }}
+              >
+                {employee.gender}
+              </span>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Employment Status</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="text-sm font-medium text-gray-500">
+        <div
+          style={{
+            backgroundColor: "white",
+            border: "1px solid #e5e7eb",
+            borderRadius: "8px",
+            overflow: "hidden",
+          }}
+        >
+          <div style={{ padding: "20px", borderBottom: "1px solid #e5e7eb" }}>
+            <h3
+              style={{
+                fontSize: "18px",
+                fontWeight: "600",
+                color: "black",
+                margin: 0,
+              }}
+            >
+              Employment Status
+            </h3>
+          </div>
+          <div style={{ padding: "20px" }}>
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#6b7280",
+                  display: "block",
+                  marginBottom: "4px",
+                }}
+              >
                 Status
               </label>
-              <p className="text-gray-900">
-                <span
-                  className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
-                    employee.active
-                      ? "bg-green-100 text-green-800"
-                      : "bg-red-100 text-red-800"
-                  }`}
-                >
-                  {employee.active ? "Active" : "Inactive"}
-                </span>
-              </p>
+              <span
+                style={{
+                  display: "inline-flex",
+                  padding: "6px 12px",
+                  fontSize: "12px",
+                  fontWeight: "600",
+                  borderRadius: "20px",
+                  backgroundColor: employee.active ? "#dcfce7" : "#fee2e2",
+                  color: "black",
+                }}
+              >
+                {employee.active ? "Active" : "Inactive"}
+              </span>
             </div>
 
-            <div>
-              <label className="text-sm font-medium text-gray-500">
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#6b7280",
+                  display: "block",
+                  marginBottom: "4px",
+                }}
+              >
                 Employee ID
               </label>
-              <p className="text-gray-900">#{employee.id}</p>
+              <p style={{ color: "black", margin: 0 }}>#{employee.id}</p>
             </div>
 
-            <div>
-              <label className="text-sm font-medium text-gray-500">
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#6b7280",
+                  display: "block",
+                  marginBottom: "4px",
+                }}
+              >
                 Created Date
               </label>
-              <p className="text-gray-900">
+              <p style={{ color: "black", margin: 0 }}>
                 {new Date(employee.createdAt).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
@@ -182,10 +406,18 @@ export const EmployeeDetail: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-500">
+              <label
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#6b7280",
+                  display: "block",
+                  marginBottom: "4px",
+                }}
+              >
                 Last Updated
               </label>
-              <p className="text-gray-900">
+              <p style={{ color: "black", margin: 0 }}>
                 {new Date(employee.updatedAt).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
@@ -195,8 +427,8 @@ export const EmployeeDetail: React.FC = () => {
                 })}
               </p>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );

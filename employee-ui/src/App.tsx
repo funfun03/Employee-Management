@@ -7,7 +7,7 @@ import "./App.css";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div style={{ minHeight: "100vh", backgroundColor: "#f9fafb" }}>
       <Routes>
         <Route path="/" element={<Navigate to="/employees" replace />} />
         <Route path="/employees" element={<EmployeesPage />} />
